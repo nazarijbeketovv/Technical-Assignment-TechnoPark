@@ -5,9 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "alembic>=1.17.2",
     "asyncpg>=0.30.0",
     "fastapi>=0.121.3",
     "pydantic-settings>=2.12.0",
+    "pytest>=9.0.1",
     "rodi>=2.0.8",
     "sqlalchemy[asyncio]>=2.0.44",
     "uvicorn[standart]>=0.38.0",
@@ -17,6 +19,8 @@ dependencies = [
 dev = [
     "mypy>=1.18.2",
     "ruff>=0.14.6",
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.23.0",
 ]
 
 [tool.mypy]
@@ -39,6 +43,7 @@ select = [
     "ISC", # implicit string concatenation
     "UP", # alert you when better syntax is available in your python version
     "RUF", # the ruff developer's own rules
+    "D",
 ]
 
 ignore = [
@@ -46,6 +51,9 @@ ignore = [
     "E501", # Supress line-too-long warnings: trust black's judgement on this one.
     "A003", # Allow shawoding class attribute: django uses id.
     "B904", # Allow unchained exceptions: it's fine to raise 404 in django.
+    "RUF001",
+    "RUF002",
+    "D417",
 ]
 
 fixable = [
@@ -53,3 +61,12 @@ fixable = [
     "NPY001", # Fix numpy types, which are removed in 1.24.
     "RUF100", # Remove unused noqa comments.
 ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+

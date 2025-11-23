@@ -1,3 +1,5 @@
+"""Конфигурация подключения к базе данных Postgres."""
+
 from urllib.parse import quote
 
 from pydantic import Field, PostgresDsn
@@ -5,6 +7,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class DatabaseSettings(BaseSettings):
+    """Настройки подключения и пула соединений к Postgres."""
+
     host: str = Field(description="Хост размещения БД")
     port: int = Field(description="Порт подключения к Postgres", ge=0, le=65535)
     database: str = Field(description="Название БД Postgres")
@@ -30,6 +34,7 @@ class DatabaseSettings(BaseSettings):
 
     @property
     def url(self) -> str:
+        """Сформировать DSN-строку подключения к Postgres."""
         return str(
             PostgresDsn.build(
                 scheme="postgresql+asyncpg",
@@ -43,6 +48,7 @@ class DatabaseSettings(BaseSettings):
 
     @property
     def pool_conf(self) -> dict[str, int]:
+        """Вернуть параметры пула соединений для SQLAlchemy-движка."""
         return {
             "max_overflow": self.max_overflow,
             "pool_timeout": self.pool_timeout,

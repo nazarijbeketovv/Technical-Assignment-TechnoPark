@@ -1,3 +1,5 @@
+"""Пакет с маршрутизатором версий HTTP API (v1)."""
+
 from fastapi import APIRouter
 from api.v1.handlers.products import router as products_router
 

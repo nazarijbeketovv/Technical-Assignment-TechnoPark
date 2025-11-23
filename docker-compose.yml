@@ -1,0 +1,34 @@
+services:
+  app:
+    build: .
+    container_name: product-calculator-app
+    depends_on:
+      - db
+    command: sh -c "alembic upgrade head && python3 -m main"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: db
+
+    restart: on-failure
+    ports:
+      - "8000:8000"
+
+  db:
+    image: postgres:16-alpine
+    container_name: product-calculator-postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+

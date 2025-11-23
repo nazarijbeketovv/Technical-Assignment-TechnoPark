@@ -1,4 +1,5 @@
-from enum import Enum
+"""Настройки приложения и точки входа к конфигурации."""
+
 from pathlib import Path
 from typing import Any, Literal
 
@@ -12,32 +13,23 @@ from config.db import DatabaseSettings
 load_dotenv()
 
 
-__all__ = ("settings", "BASE_DIR", "Environ")
+__all__ = ("BASE_DIR", "settings")
 
 
 BASE_DIR = Path(__file__).parent.parent
 
 
-class Environ(Enum):
-    dev = "dev"
-    test = "test"
-    prod = "prod"
-
-
 class Settings(BaseSettings):
-    debug: bool = Field(description="Режим отладки")
-    log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
-        description="Минимальный уровень логирования"
-    )
-    session_idle_timeout: int = Field(
-        default=10,
-        description="Сколько минут бездействия ожидать до закрытия сессии",
-    )
-    environ: Environ = Field(
-        description="Текущее окружение проекта", default=Environ.dev
-    )
+    """Глобальные настройки приложения."""
 
-    database: DatabaseSettings = Field(default_factory=DatabaseSettings)
+    debug: bool = Field(default=False, description="Режим отладки")
+    log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
+        default="INFO",
+        description="Минимальный уровень логирования",
+    )
+    database: DatabaseSettings = Field(
+        default_factory=DatabaseSettings,  # type: ignore[arg-type]
+    )
 
     model_config = SettingsConfigDict(case_sensitive=False, extra="ignore")
 

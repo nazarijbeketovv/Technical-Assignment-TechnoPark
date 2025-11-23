@@ -13,3 +13,7 @@ repos:
         name: Run lint
         entry: make lint
         language: system
+      - id: test
+        name: Run test
+        entry: make test
+        language: system
