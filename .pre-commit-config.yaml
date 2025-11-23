@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: type
+        name: Run type
+        entry: make type
+        language: system
+      - id: format
+        name: Run format
+        entry: make format
+        language: system
+      - id: lint
+        name: Run lint
+        entry: make lint
+        language: system
